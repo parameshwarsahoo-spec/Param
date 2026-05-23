@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Param Personal Finance</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brandMark">F</div>
+          <div>
+            <strong>Param Personal Finance</strong>
+            <span>Personal finance</span>
+          </div>
+        </div>
+        <nav>
+          <a class="active" href="#">Dashboard</a>
+          <a href="#expenses">Expenses</a>
+          <a href="#budgets">Budgets</a>
+          <a href="#analytics">Analytics</a>
+          <a href="#reports">Reports</a>
+          <a href="#settings">Settings</a>
+        </nav>
+        <section class="secure">
+          <strong>Security ready</strong>
+          <p>JWT sessions, biometric mobile unlock, encrypted storage hooks, and GDPR controls.</p>
+        </section>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p>May 2026 overview</p>
+            <h1>Money dashboard</h1>
+          </div>
+          <div class="actions">
+            <button id="themeToggle" title="Toggle theme">T</button>
+            <button title="Notifications">N</button>
+            <button class="primary">+ Add expense</button>
+          </div>
+        </header>
+
+        <section class="stats">
+          <article class="card stat"><span>Income</span><strong>$8,200</strong><p>Salary and recurring income</p></article>
+          <article class="card stat"><span>Expenses</span><strong>$5,360</strong><p>Across 8 categories</p></article>
+          <article class="card stat"><span>Balance</span><strong>$2,840</strong><p>Available after bills</p></article>
+          <article class="card stat"><span>Savings rate</span><strong>35%</strong><p>7% above last month</p></article>
+        </section>
+
+        <section class="grid two" id="analytics">
+          <article class="card">
+            <div class="sectionTitle"><h2>Monthly trend</h2><button>Export</button></div>
+            <svg class="chart" viewBox="0 0 640 260" role="img" aria-label="Income and expense trend">
+              <polyline points="40,68 180,60 320,48 460,40 600,32" fill="none" stroke="#4fb286" stroke-width="5" stroke-linecap="round" />
+              <polyline points="40,140 180,150 320,116 460,136 600,126" fill="none" stroke="#ee6c4d" stroke-width="5" stroke-linecap="round" />
+              <g class="axis">
+                <line x1="40" y1="220" x2="600" y2="220" />
+                <text x="40" y="244">Jan</text><text x="180" y="244">Feb</text><text x="320" y="244">Mar</text><text x="460" y="244">Apr</text><text x="600" y="244">May</text>
+              </g>
+            </svg>
+          </article>
+          <article class="card">
+            <h2>Category split</h2>
+            <div class="donut" aria-label="Category expense distribution"></div>
+            <div class="legend">
+              <span><i class="food"></i>Food</span><span><i class="rent"></i>Rent</span><span><i class="travel"></i>Travel</span><span><i class="bills"></i>Bills</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid three">
+          <article class="card tableCard" id="expenses">
+            <div class="sectionTitle"><h2>Recent expenses</h2><button>View all</button></div>
+            <table>
+              <thead><tr><th>Merchant</th><th>Category</th><th>Method</th><th>Date</th><th>Amount</th></tr></thead>
+              <tbody>
+                <tr><td>Green Bowl Cafe</td><td>Food</td><td>Card</td><td>Today</td><td>$36.50</td></tr>
+                <tr><td>Metro Pass</td><td>Travel</td><td>Wallet</td><td>Yesterday</td><td>$48.00</td></tr>
+                <tr><td>Cloud Storage</td><td>Bills</td><td>Card</td><td>May 20</td><td>$12.99</td></tr>
+                <tr><td>Online Market</td><td>Shopping</td><td>UPI</td><td>May 18</td><td>$128.40</td></tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="card" id="budgets">
+            <h2>Budget planner</h2>
+            <div class="budget"><span>Food <b>82%</b></span><div><i style="width:82%"></i></div></div>
+            <div class="budget"><span>Travel <b>78%</b></span><div><i style="width:78%"></i></div></div>
+            <div class="budget over"><span>Shopping <b>111%</b></span><div><i style="width:100%"></i></div></div>
+            <div class="budget"><span>Bills <b>77%</b></span><div><i style="width:77%"></i></div></div>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="card">
+            <h2>Smart insights</h2>
+            <p class="insight">You spent 25% more on dining this month. Try setting a weekday lunch cap.</p>
+            <p class="insight">Shopping crossed its category budget by $70. Move non-urgent purchases to next month.</p>
+            <p class="insight">Three recurring subscriptions total $42.99. Review services unused in the last 30 days.</p>
+          </article>
+          <article class="card" id="reports">
+            <h2>Reports</h2>
+            <div class="bars"><i style="height:64%"></i><i style="height:58%"></i><i style="height:74%"></i><i style="height:66%"></i><i style="height:70%"></i></div>
+            <div class="reportActions"><button>Monthly PDF</button><button>CSV export</button><button>Tax report</button></div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <nav class="mobileNav"><button>Home</button><button>Add</button><button>Reports</button><button>Secure</button></nav>
+    <script src="./script.js"></script>
+  </body>
+</html>

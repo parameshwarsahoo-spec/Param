@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String         @id @default(uuid()) @db.Uuid
+  email           String         @unique @db.VarChar(320)
+  passwordHash    String?        @map("password_hash")
+  fullName        String         @map("full_name") @db.VarChar(160)
+  avatarUrl       String?        @map("avatar_url")
+  defaultCurrency String         @default("USD") @map("default_currency") @db.Char(3)
+  locale          String         @default("en-US") @db.VarChar(16)
+  theme           String         @default("system") @db.VarChar(16)
+  provider        String         @default("local") @db.VarChar(32)
+  providerSubject String?        @map("provider_subject")
+  emailVerifiedAt DateTime?      @map("email_verified_at") @db.Timestamptz
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt       DateTime?      @map("deleted_at") @db.Timestamptz
+  refreshTokens   RefreshToken[]
+  categories      Category[]
+  expenses        Expense[]
+  incomes         Income[]
+  budgets         Budget[]
+  notifications   Notification[]
+  reports         Report[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz
+  revokedAt DateTime? @map("revoked_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model Category {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String?    @map("user_id") @db.Uuid
+  name      String     @db.VarChar(80)
+  type      String     @db.VarChar(16)
+  color     String     @default("#2563eb") @db.VarChar(16)
+  icon      String     @default("circle") @db.VarChar(64)
+  parentId  String?    @map("parent_id") @db.Uuid
+  isSystem  Boolean    @default(false) @map("is_system")
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  Category[] @relation("CategoryTree")
+  expenses  Expense[]
+  incomes   Income[]
+  budgets   Budget[]
+
+  @@unique([userId, name, type])
+  @@map("categories")
+}
+
+model Expense {
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  categoryId     String   @map("category_id") @db.Uuid
+  amount         Decimal  @db.Decimal(14, 2)
+  currency       String   @default("USD") @db.Char(3)
+  spentAt        DateTime @map("spent_at") @db.Timestamptz
+  paymentMethod  String   @map("payment_method") @db.VarChar(40)
+  notes          String?
+  receiptUrl     String?  @map("receipt_url")
+  merchant       String?  @db.VarChar(160)
+  isRecurring    Boolean  @default(false) @map("is_recurring")
+  recurrenceRule String?  @map("recurrence_rule")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category       Category @relation(fields: [categoryId], references: [id])
+
+  @@index([userId, spentAt])
+  @@index([userId, categoryId])
+  @@map("expenses")
+}
+
+model Income {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  categoryId     String?   @map("category_id") @db.Uuid
+  amount         Decimal   @db.Decimal(14, 2)
+  currency       String    @default("USD") @db.Char(3)
+  receivedAt     DateTime  @map("received_at") @db.Timestamptz
+  source         String    @db.VarChar(120)
+  notes          String?
+  isRecurring    Boolean   @default(false) @map("is_recurring")
+  recurrenceRule String?   @map("recurrence_rule")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category       Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([userId, receivedAt])
+  @@map("incomes")
+}
+
+model Budget {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @map("user_id") @db.Uuid
+  categoryId     String?   @map("category_id") @db.Uuid
+  month          DateTime  @db.Date
+  amount         Decimal   @db.Decimal(14, 2)
+  currency       String    @default("USD") @db.Char(3)
+  alertThreshold Decimal   @default(0.8) @map("alert_threshold") @db.Decimal(5, 2)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category       Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId, month])
+  @@index([userId, month])
+  @@map("budgets")
+}
+
+model Notification {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  type         String    @db.VarChar(40)
+  title        String    @db.VarChar(160)
+  body         String
+  scheduledFor DateTime? @map("scheduled_for") @db.Timestamptz
+  sentAt       DateTime? @map("sent_at") @db.Timestamptz
+  readAt       DateTime? @map("read_at") @db.Timestamptz
+  metadata     Json      @default("{}")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, scheduledFor])
+  @@map("notifications")
+}
+
+model Report {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  type        String   @db.VarChar(40)
+  format      String   @db.VarChar(16)
+  periodStart DateTime @map("period_start") @db.Date
+  periodEnd   DateTime @map("period_end") @db.Date
+  fileUrl     String?  @map("file_url")
+  status      String   @default("pending") @db.VarChar(24)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, periodStart, periodEnd])
+  @@map("reports")
+}

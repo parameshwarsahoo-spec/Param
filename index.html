@@ -39,15 +39,15 @@
           <div class="actions">
             <button id="themeToggle" title="Toggle theme">T</button>
             <button title="Notifications">N</button>
-            <button class="primary">+ Add expense</button>
+            <button class="primary" id="openExpenseModal" type="button">+ Add expense</button>
           </div>
         </header>
 
         <section class="stats">
           <article class="card stat"><span>Income</span><strong>$8,200</strong><p>Salary and recurring income</p></article>
-          <article class="card stat"><span>Expenses</span><strong>$5,360</strong><p>Across 8 categories</p></article>
-          <article class="card stat"><span>Balance</span><strong>$2,840</strong><p>Available after bills</p></article>
-          <article class="card stat"><span>Savings rate</span><strong>35%</strong><p>7% above last month</p></article>
+          <article class="card stat"><span>Expenses</span><strong id="totalExpense">$5,360</strong><p>Across 8 categories</p></article>
+          <article class="card stat"><span>Balance</span><strong id="remainingBalance">$2,840</strong><p>Available after bills</p></article>
+          <article class="card stat"><span>Savings rate</span><strong id="savingsRate">35%</strong><p>7% above last month</p></article>
         </section>
 
         <section class="grid two" id="analytics">
@@ -76,12 +76,7 @@
             <div class="sectionTitle"><h2>Recent expenses</h2><button>View all</button></div>
             <table>
               <thead><tr><th>Merchant</th><th>Category</th><th>Method</th><th>Date</th><th>Amount</th></tr></thead>
-              <tbody>
-                <tr><td>Green Bowl Cafe</td><td>Food</td><td>Card</td><td>Today</td><td>$36.50</td></tr>
-                <tr><td>Metro Pass</td><td>Travel</td><td>Wallet</td><td>Yesterday</td><td>$48.00</td></tr>
-                <tr><td>Cloud Storage</td><td>Bills</td><td>Card</td><td>May 20</td><td>$12.99</td></tr>
-                <tr><td>Online Market</td><td>Shopping</td><td>UPI</td><td>May 18</td><td>$128.40</td></tr>
-              </tbody>
+              <tbody id="expenseRows"></tbody>
             </table>
           </article>
           <article class="card" id="budgets">
@@ -108,7 +103,65 @@
         </section>
       </main>
     </div>
-    <nav class="mobileNav"><button>Home</button><button>Add</button><button>Reports</button><button>Secure</button></nav>
+    <div class="modalOverlay" id="expenseModal" aria-hidden="true">
+      <section class="expenseModal" role="dialog" aria-modal="true" aria-labelledby="expenseModalTitle">
+        <div class="modalHeader">
+          <div>
+            <p>Quick entry</p>
+            <h2 id="expenseModalTitle">Add expense</h2>
+          </div>
+          <button class="iconOnly" id="closeExpenseModal" type="button" aria-label="Close add expense">X</button>
+        </div>
+        <form id="expenseForm" class="expenseForm">
+          <label>
+            Amount
+            <input id="expenseAmount" name="amount" type="number" min="0.01" step="0.01" placeholder="49.99" required />
+          </label>
+          <label>
+            Category
+            <select id="expenseCategory" name="category" required>
+              <option value="Food">Food</option>
+              <option value="Travel">Travel</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Rent">Rent</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Bills">Bills</option>
+              <option value="Health">Health</option>
+              <option value="Education">Education</option>
+              <option value="Others">Others</option>
+            </select>
+          </label>
+          <label>
+            Merchant
+            <input id="expenseMerchant" name="merchant" type="text" maxlength="80" placeholder="Store or vendor" required />
+          </label>
+          <label>
+            Payment method
+            <select id="expenseMethod" name="method" required>
+              <option value="Card">Card</option>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Wallet">Wallet</option>
+              <option value="Bank transfer">Bank transfer</option>
+            </select>
+          </label>
+          <label>
+            Date
+            <input id="expenseDate" name="date" type="date" required />
+          </label>
+          <label class="fullField">
+            Notes
+            <input id="expenseNotes" name="notes" type="text" maxlength="120" placeholder="Optional note" />
+          </label>
+          <p class="formError" id="expenseError" role="alert"></p>
+          <div class="formActions">
+            <button type="button" id="cancelExpense">Cancel</button>
+            <button class="primary" type="submit">Save expense</button>
+          </div>
+        </form>
+      </section>
+    </div>
+    <nav class="mobileNav"><button>Home</button><button id="mobileAddExpense" type="button">Add</button><button>Reports</button><button>Secure</button></nav>
     <script src="./script.js"></script>
   </body>
 </html>

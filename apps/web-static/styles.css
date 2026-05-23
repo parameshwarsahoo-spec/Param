@@ -37,6 +37,16 @@ button {
   font: inherit;
   cursor: pointer;
 }
+input, select {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 0 12px;
+  font: inherit;
+}
 .shell {
   display: flex;
   gap: 24px;
@@ -142,6 +152,67 @@ td:last-child, th:last-child { text-align: right; }
 .bars i { flex: 1; border-radius: 8px 8px 0 0; background: var(--ocean); }
 .reportActions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .mobileNav { display: none; }
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 24, 22, 0.58);
+  padding: 20px;
+}
+.modalOverlay.open { display: flex; }
+.expenseModal {
+  width: min(680px, 100%);
+  max-height: min(760px, calc(100vh - 32px));
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.modalHeader p {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.iconOnly {
+  width: 40px;
+  padding: 0;
+  font-weight: 700;
+}
+.expenseForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.expenseForm label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.fullField, .formError, .formActions { grid-column: 1 / -1; }
+.formError {
+  min-height: 20px;
+  margin: 0;
+  color: var(--coral);
+  font-size: 14px;
+}
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
 
 @media (max-width: 1024px) {
   .shell { padding-bottom: 80px; }
@@ -167,4 +238,6 @@ td:last-child, th:last-child { text-align: right; }
   .actions { width: 100%; }
   .actions .primary { flex: 1; }
   .reportActions { grid-template-columns: 1fr; }
+  .expenseForm { grid-template-columns: 1fr; }
+  .formActions { flex-direction: column-reverse; }
 }

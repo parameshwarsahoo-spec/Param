@@ -1,4 +1,4 @@
-# Param Personal Finance
+# Sahonomics FinPilot
 
 Production-ready cross-platform personal finance tracker with:
 

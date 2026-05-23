@@ -14,7 +14,7 @@ export default function DashboardPage() {
               <WalletCards size={22} />
             </div>
             <div>
-              <p className="font-semibold">Param Personal Finance</p>
+              <p className="font-semibold">Sahonomics FinPilot</p>
               <p className="text-xs text-ink/55 dark:text-white/55">Personal finance</p>
             </div>
           </div>

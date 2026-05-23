@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Param Personal Finance",
+  title: "Sahonomics FinPilot",
   description: "Cross-platform personal finance web dashboard"
 };
 

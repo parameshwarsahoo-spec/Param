@@ -11,7 +11,7 @@ class ExpenseTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Param Personal Finance',
+      title: 'Sahonomics FinPilot',
       themeMode: ThemeMode.system,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff4fb286)),
@@ -48,7 +48,7 @@ class _DashboardShellState extends State<DashboardShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Param Personal Finance')),
+      appBar: AppBar(title: const Text('Sahonomics FinPilot')),
       body: screens[index],
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},

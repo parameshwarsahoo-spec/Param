@@ -1,4 +1,4 @@
-# Param Personal Finance Static Publish
+# Sahonomics FinPilot Static Publish
 
 This folder is a dependency-free public web build.
 

@@ -1,4 +1,4 @@
-const key = "param-personal-finance-theme";
+const key = "sahonomics-finpilot-theme";
 const saved = localStorage.getItem(key);
 if (saved === "dark") document.body.classList.add("dark");
 
